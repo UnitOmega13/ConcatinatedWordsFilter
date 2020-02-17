@@ -10,12 +10,6 @@ public class Filter {
     List<String> concatenatedWords = new ArrayList<>();
     List<String> lines = new ArrayList<>();
 
-    public void startFilter() throws FileNotFoundException {
-        List<String> result = findAllConcatenatedWords();
-        result.sort(Comparator.comparingInt(s -> Math.abs(s.length() - "intelligent".length())));
-        System.out.println("Longest concatenated word is " + result.get(0) + ", second word is " + result.get(1));
-    }
-
     public List<String> findAllConcatenatedWords() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("words.txt"));
         while (scanner.hasNext()) {
@@ -27,18 +21,16 @@ public class Filter {
                 concatenatedWords.add(word);
             }
         }
+        concatenatedWords.sort(Comparator.comparingInt(s -> Math.abs(s.length() - "intelligent".length())));
         return concatenatedWords;
     }
 
-    private boolean findConcatenatedStrings(String string, int start, int n){
-
-        if(start == string.length() && n > 1){
+    private boolean findConcatenatedStrings(String string, int startPosition, int n){
+        if(startPosition == string.length() && n > 1){
             return true;
-        } else if(start == string.length() && n == 1) {
-            return false;
         }
-        for(int i = start + 1; i <= string.length(); i++){
-            if(allWords.contains(string.substring(start, i))) {
+        for(int i = startPosition + 1; i <= string.length(); i++){
+            if(allWords.contains(string.substring(startPosition, i))) {
                 if(findConcatenatedStrings(string, i, n++)) return true;
             }
         }
