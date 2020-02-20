@@ -1,10 +1,11 @@
-package src.main.java.UnitOmega13;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Arrays;
+
 
 public class Application {
 
@@ -13,14 +14,16 @@ public class Application {
         System.out.println("Longest concatenated word is " + result.get(0) + ", second word is " + result.get(1));
     }
 
-    public static class Filter {
+    public static final class Filter {
 
-        static HashSet<String> allWords = new HashSet<>();
-        static List<String> concatenatedWords = new ArrayList<>();
-        static List<String> lines = new ArrayList<>();
+        private static final HashSet<String> allWords = new HashSet<>();
+        private static final List<String> concatenatedWords = new ArrayList<>();
+        private static final List<String> lines = new ArrayList<>();
+        private static final String fileName = "words.txt";
+        private static MyComparator myComparator;
 
         public static List<String> findAllConcatenatedWords() throws FileNotFoundException {
-            Scanner scanner = new Scanner(new File( "words.txt"));
+            Scanner scanner = new Scanner(new File( fileName));
             while (scanner.hasNext()) {
                 lines.add(scanner.next());
             }
@@ -30,7 +33,7 @@ public class Application {
                     concatenatedWords.add(word);
                 }
             }
-            concatenatedWords.sort(Comparator.comparingInt(s -> Math.abs(s.length() - "intelligent".length())));
+            concatenatedWords.sort(myComparator);
             return concatenatedWords;
         }
 
