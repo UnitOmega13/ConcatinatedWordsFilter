@@ -1,26 +1,32 @@
-package test;
-
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 class FilterTest {
-    List<String> concatenatedWords = new ArrayList<>();
-    String[] list = {"cat", "cats", "catsdogcats", "dog", "dogcatsdog", "hippopotamuses", "rat", "ratcatdogcat"};
-    HashSet<String> words = new HashSet<>(Arrays.asList(list));
+    static final List<String> concatenatedWords = new ArrayList<>();
+    static final String[] list = {"cat", "cats", "catsdogcats", "dog", "dogcatsdog", "hippopotamuses", "rat", "ratcatdogcat"};
+    static final HashSet<String> words = new HashSet<>(Arrays.asList(list));
+    static MyComparator myComparator;
+
+    public static void main(String[] args) {
+        findAllConcatenatedWords();
+    }
 
     @Test
-    void findAllConcatenatedWords() {
+    static void findAllConcatenatedWords() {
         for (String word : words.toArray(new String[0])) {
             if(findConcatenatedStrings(word, 0, 0)) {
                 concatenatedWords.add(word);
             }
         }
-        concatenatedWords.sort(Comparator.comparingInt(s -> Math.abs(s.length() - "intelligent".length())));
+        concatenatedWords.sort(myComparator);
         System.out.println(concatenatedWords);
     }
 
-    private boolean findConcatenatedStrings(String string, int startPosition, int n){
+    private static boolean findConcatenatedStrings(String string, int startPosition, int n){
         if(startPosition == string.length() && n > 1){
             return true;
         }
